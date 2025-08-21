@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="id">
-<script>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -36,20 +35,6 @@
       document.getElementById("result").innerText = "Mengupload...";
 
       try {
-        const res = await fetch("/api/upload", {
-          method: "POST",
-          body: formData,
-        });
-        const text = await res.text();
-        document.getElementById("result").innerHTML =
-          "✅ Link: <a href='" + text + "' target='_blank'>" + text + "</a>";
-      } catch (err) {
-        document.getElementById("result").innerText = "❌ Gagal upload: " + err;
-      }
-    }
-  </script>
-</body>
-</html>      try {
         const res = await fetch("/api/upload", {
           method: "POST",
           body: formData,
