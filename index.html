@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Upload ke Catbox</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#0f172a; color:#e5e7eb; padding:30px; }
+    .box { max-width:400px; margin:auto; background:#111827; padding:20px; border-radius:12px; }
+    input[type="file"] { display:block; margin:15px 0; }
+    button { padding:10px 15px; background:#2563eb; color:white; border:none; border-radius:8px; cursor:pointer; }
+    #result { margin-top:15px; padding:10px; background:#0b1220; border-radius:8px; word-break:break-all; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Upload ke Catbox</h2>
+    <input type="file" id="fileInput" accept="image/*,video/*">
+    <button onclick="upload()">Upload</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    async function upload() {
+      const file = document.getElementById("fileInput").files[0];
+      if (!file) {
+        alert("Pilih file dulu!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("fileToUpload", file);
+      formData.append("reqtype", "fileupload");
+
+      document.getElementById("result").innerText = "Mengupload...";
+
+      try {
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+        const text = await res.text();
+        document.getElementById("result").innerHTML =
+          "✅ Link: <a href='" + text + "' target='_blank'>" + text + "</a>";
+      } catch (err) {
+        document.getElementById("result").innerText = "❌ Gagal upload: " + err;
+      }
+    }
+  </script>
+</body>
+</html>
